@@ -14,14 +14,15 @@ CSV.foreach('/home/augo/Documents/RubyTests/finalchange.csv') do |row|
     row_description.gsub!('<br />', '')
     length = row_description.length
 
-    #arr = ['1296', '1297', '1298', '1299', '1300', '1346']
-    #links = arr
-    #if (links == row_id)
-      #row_description = ''
-    #end
+    arr = ['1296', '1297', '1298', '1299', '1300', '1346']
+    links = arr
 
-    if (row_id == '1346' || row_id == '1296' || row_id == '1297' || row_id == '1298' || row_id == '1299' || row_id == '1300') #6 specific lines need deleted
-      row_description = ''
+    if (links.include? (row_id))
+    row_description = ''
+    end
+
+    def output_update(r_desc, r_id)
+      puts "UPDATE pp SET pp.meta_description = \"#{r_desc}\" WHERE pp.id = #{r_id};"
     end
 
     if (length >= 160)
@@ -29,12 +30,12 @@ CSV.foreach('/home/augo/Documents/RubyTests/finalchange.csv') do |row|
       period = period_find
 
       if (!period.empty?)
-        puts "UPDATE pp SET pp.meta_description = \"#{row_description[0..period.last]}\" WHERE pp.id = #{row_id};"
+        output_update(row_description[0..period.last], row_id)
       end
 
     else
 
-      puts "UPDATE pp SET pp.meta_description = \"#{row_description[0..160]}\" WHERE pp.id = #{row_id};"
+      output_update(row_description[0..160], row_id)
     end
   end
 end
